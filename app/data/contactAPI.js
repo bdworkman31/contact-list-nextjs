@@ -25,4 +25,8 @@ export const contactAPI = {
     };
     this.contacts.push(newContact);
   },
+
+  get: function (id) {
+    return this.contacts.find((contact) => contact.id === id);
+  },
 };
