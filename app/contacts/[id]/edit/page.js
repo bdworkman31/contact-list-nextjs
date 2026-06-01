@@ -1,44 +1,60 @@
 "use client";
 
-import { useContacts } from "../../contexts/UserContext";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
+import Link from "next/link";
+import { useContacts } from "../../../contexts/UserContext";
 
-function AddContact() {
-  const [url, setURL] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+export default function EditContact() {
+  const { id } = useParams();
   const router = useRouter();
 
-  const { addContact } = useContacts();
+  const { getContact, editContact } = useContacts();
+  const contact = getContact(id);
 
-  const handleSubmitNewContact = (e) => {
+  const [url, setURL] = useState(contact?.image_url || "");
+  const [name, setName] = useState(contact?.name || "");
+  const [email, setEmail] = useState(contact?.email || "");
+  const [phone, setPhone] = useState(contact?.phone_number || "");
+
+  if (!contact) {
+    return (
+      <main className="container mt-4 text-center">
+        <h3>Contact Not Found</h3>
+        <Link href="/contacts" className="btn btn-outline-primary">
+          Back to Contacts
+        </Link>
+      </main>
+    );
+  }
+
+  const handleSubmitEditedContact = (e) => {
     e.preventDefault();
 
-    addContact({
-      url,
+    editContact({
+      id: contact.id,
       name,
+      image_url: url,
       email,
-      phone,
+      phone_number: phone,
     });
 
-    router.push("/contacts");
+    router.push(`/contacts/${contact.id}`);
   };
 
   return (
     <div className="container mt-4">
       <form
         className="container-fluid text-center"
-        onSubmit={handleSubmitNewContact}
+        onSubmit={handleSubmitEditedContact}
       >
-        <h1>Add a New Contact</h1>
+        <h1>Edit Contact</h1>
+
         <div className="mb-3">
           <label className="form-label">Image URL</label>
           <input
             type="text"
             className="form-control"
-            placeholder="Enter Image URL"
             value={url}
             onChange={(event) => setURL(event.target.value)}
           />
@@ -49,7 +65,6 @@ function AddContact() {
           <input
             type="text"
             className="form-control"
-            placeholder="Enter Name"
             value={name}
             onChange={(event) => setName(event.target.value)}
             required
@@ -61,7 +76,6 @@ function AddContact() {
           <input
             type="email"
             className="form-control"
-            placeholder="Enter Email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
@@ -73,19 +87,22 @@ function AddContact() {
           <input
             type="text"
             className="form-control"
-            placeholder="Enter Phone Number for Contact"
             value={phone}
             onChange={(event) => setPhone(event.target.value)}
             required
           />
         </div>
 
-        <button type="submit" className="btn btn-primary">
-          ADD NEW CONTACT
-        </button>
+        <div>
+          <button type="submit" className="btn btn-primary">
+            SUBMIT EDITED INFO
+          </button>
+
+          <Link href="/contacts" className="btn btn-outline-danger ms-2">
+            Back
+          </Link>
+        </div>
       </form>
     </div>
   );
 }
-
-export default AddContact;

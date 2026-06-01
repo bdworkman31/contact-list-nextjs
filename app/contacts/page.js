@@ -1,10 +1,27 @@
 "use client";
+
 import Link from "next/link";
+import { useContacts } from "../contexts/UserContext";
 import { useState } from "react";
-import { contactAPI } from "../data/contactAPI";
 
 export default function ContactsPage() {
-  const [allContacts] = useState(contactAPI.all());
+  const { allContacts, deleteContact } = useContacts();
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredContacts = allContacts.filter((contact) =>
+    contact.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  const handleDelete = (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this contact?",
+    );
+
+    if (confirmDelete) {
+      deleteContact(id);
+    }
+  };
 
   return (
     <main className="container mt-4">
@@ -14,6 +31,16 @@ export default function ContactsPage() {
         <Link href="/contacts/new" className="btn btn-primary">
           ADD CONTACT
         </Link>
+      </div>
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search Contacts"
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          required
+        />
       </div>
 
       <table className="table table-striped align-middle">
@@ -28,10 +55,14 @@ export default function ContactsPage() {
         </thead>
 
         <tbody>
-          {allContacts.map((contact) => (
+          {filteredContacts.map((contact) => (
             <tr key={contact.id}>
               <td>
-                <img src={contact.image_url} alt={contact.name} />
+                <img
+                  src={contact.image_url}
+                  alt={contact.name}
+                  style={{ width: "60px", height: "60px", objectFit: "cover" }}
+                />
               </td>
 
               <td>
@@ -41,6 +72,15 @@ export default function ContactsPage() {
               <td>{contact.email}</td>
 
               <td>{contact.phone_number}</td>
+
+              <td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(contact.id)}
+                >
+                  Delete
+                </button>
+              </td>
 
               <td>
                 <Link href={`/contacts/${contact.id}/edit`}>Edit</Link>
