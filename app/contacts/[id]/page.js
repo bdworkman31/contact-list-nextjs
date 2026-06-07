@@ -41,11 +41,9 @@ export default function SelectedContact() {
           Back
         </Link>
 
-        <Link href={`/contacts/${contact.id}`} className="btn btn-warning">
+        <Link href={`/contacts/${contact.id}/edit`} className="btn btn-warning">
           Edit Contact
         </Link>
-
-        
       </div>
     </main>
   );
