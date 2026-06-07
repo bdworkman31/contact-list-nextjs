@@ -4,13 +4,22 @@ import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { useContacts } from "../../../contexts/UserContext";
+import PropTypes from "prop-types";
+
+const typesToCheck = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  image_url: PropTypes.string,
+  email: PropTypes.string.isRequired,
+  phone_number: PropTypes.string.isRequired,
+};
 
 export default function EditContact() {
   const { id } = useParams();
   const router = useRouter();
 
   const { getContact, editContact } = useContacts();
-  const contact = getContact(id);
+  const contact = getContact(parseInt(id, 10));
 
   const [url, setURL] = useState(contact?.image_url || "");
   const [name, setName] = useState(contact?.name || "");
