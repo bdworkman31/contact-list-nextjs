@@ -17,7 +17,7 @@ function AddContact() {
     );
 
     const duplicatePhone = allContacts.find(
-      (contact) => contact.phone_number === newContact.phone_number,
+      (contact) => contact.phone_number === newContact.phone,
     );
 
     if (duplicateEmail) {
@@ -40,7 +40,7 @@ function AddContact() {
         url=""
         name=""
         email=""
-        phone=""
+        phone={0}
         onSubmit={handleSubmitNewContact}
       />
     </div>

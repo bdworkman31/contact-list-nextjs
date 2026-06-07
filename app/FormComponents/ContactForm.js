@@ -13,7 +13,7 @@ function ContactForm({ url, name, email, phone, onSubmit }) {
     e.preventDefault();
 
     if (contactPhone.length !== 11 || contactPhone.includes("-")) {
-      alert("Phone number must be 10 digits.  Do not include dashes");
+      alert("Phone number must be 11 digits.  Do not include dashes");
       return;
     }
 
@@ -21,7 +21,7 @@ function ContactForm({ url, name, email, phone, onSubmit }) {
       image_url: imageURL,
       name: contactName,
       email: contactEmail,
-      phone_number: contactPhone,
+      phone: parseInt(contactPhone, 10),
     });
   };
 

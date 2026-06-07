@@ -22,7 +22,7 @@ function EditContactForm({ url, name, email, phone, onSubmit }) {
       name: contactName,
       image_url: imageURL,
       email: contactEmail,
-      phone_number: contactPhone,
+      phone: contactPhone,
     });
   };
 

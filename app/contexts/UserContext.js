@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback } from "react";
-import PropTypes from "prop-types";
 
 const ContactContext = createContext(null);
 
@@ -13,7 +12,7 @@ export function ContactProvider({ children }) {
       image_url:
         "https://en.wikipedia.org/wiki/Albert_Einstein#/media/File:Einstein_1921_by_F_Schmutzer_-_restoration.jpg",
       email: "aeinstein@example.com",
-      phone_number: "15555555555",
+      phone_number: parseInt(15555555555),
     },
   ]);
 

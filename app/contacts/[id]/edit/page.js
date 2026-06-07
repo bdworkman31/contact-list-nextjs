@@ -27,7 +27,10 @@ export default function EditContact() {
   const handleSubmitEditedContact = (updatedContact) => {
     const contactIdUpdate = {
       id: contact.id,
-      ...updatedContact,
+      name: updatedContact.name,
+      image_url: updatedContact.image_url,
+      email: updatedContact.email,
+      phone_number: updatedContact.phone,
     };
 
     //Check duplicates and allow updating with original info.
@@ -39,7 +42,7 @@ export default function EditContact() {
 
     const duplicatePhone = allContacts.find(
       (contact) =>
-        contact.phone_number === updatedContact.phone_number &&
+        contact.phone_number === updatedContact.phone &&
         contact.id !== contactIdUpdate.id,
     );
 
@@ -55,7 +58,7 @@ export default function EditContact() {
 
     editContact(contactIdUpdate);
 
-    router.push(`/contacts/${contact.id}`);
+    router.push(`/contacts/`);
   };
 
   return (
